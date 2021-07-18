@@ -143,10 +143,49 @@ public:
 		m_bWeCreatedNetChannel = false;
 	}
 
+	bool AllowedToProcessMessage(CrossCheatMsgType nType)
+	{
+		for (CrossCheatMsgType& Type : m_Priviledges)
+		{
+			if (nType == Type)
+				return true;
+		}
+
+		return false;
+	}
+
+	void RemoveMessagePriviledge(CrossCheatMsgType nType)
+	{
+		int i = 0;
+		for (CrossCheatMsgType& Type : m_Priviledges)
+		{
+			i++;
+			if (nType == Type)
+				break;
+
+			if (i == m_Priviledges.size())
+				return;
+		}
+
+		m_Priviledges.erase(m_Priviledges.begin() + i);
+	}
+
+	void AddMessagePriviledge(CrossCheatMsgType nType)
+	{
+		for (CrossCheatMsgType& Type : m_Priviledges)
+		{
+			if (nType == Type)
+				return;
+		}
+
+		m_Priviledges.push_back(nType);
+	}
+
 private:
 	CSteamID m_GameServer;
 	CSteamID m_ClientID;
 	SteamNetworkingIdentity m_IdRemote;
+	std::vector<CrossCheatMsgType> m_Priviledges;
 	int m_nNewPacketsSinceLastReset = 0;
 	double m_dbTimeSinceLastPacket = 0;
 	double m_dbLastResetTime = 0.0;
@@ -327,10 +366,34 @@ public:
 	void SendMessageToUser(CrossCheatMsgType nType, ::google::protobuf::Message* pMsg, CrossCheatClient* pClient, int nVirtualPort = 58) {
 		SendMessageToUser(nType, pMsg, pClient, nVirtualPort);
 	}
+
+
+	bool IsMessagePriviledged(CrossCheatMsgType nType)
+	{
+		for (CrossCheatMsgType& Type : m_PriviledgedMessages)
+		{
+			if (nType == Type)
+				return true;
+		}
+
+		return false;
+	}
+
+	void MakeMessagePriviledged(CrossCheatMsgType nType)
+	{
+		for (CrossCheatMsgType& Type : m_PriviledgedMessages)
+		{
+			if (nType == Type)
+				return;
+		}
+
+		m_PriviledgedMessages.push_back(nType);
+	}
 private:
 	std::map<CSteamID, CrossCheatClient*> m_Clients;
 	std::vector<CSteamID> m_BannedClients;
 	std::vector<CSteamID> m_WhiteListedClients;
+	std::vector<CrossCheatMsgType> m_PriviledgedMessages;
 	std::vector<int> m_vOpenPorts;
 
 	bool m_bIsUsingWhiteList = false;
