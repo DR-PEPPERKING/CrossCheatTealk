@@ -117,12 +117,17 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				continue;
 			}
 
-
-			// 0-Sized packets are valid! but we don't want to malloc or memcpy that or attempt to process it!
-			// So we knick them out here. Ha-ha take that valve, cheat networking code is better than yours!
-			if (pHeader->nSize > (nDataSize - sizeof(MsgHeader_t)) || (pHeader->nSize < 1) || (pHeader->nSize > MAX_MESSAGE_SIZE)) { // Malicious Client? Or Fucked up Recieving code
-				pMsg->Release();
+			if (pHeader->nSize > (nDataSize - sizeof(MsgHeader_t)) || (pHeader->nSize < 0) || (pHeader->nSize > MAX_MESSAGE_SIZE)) { // Malicious Client? Or Fucked up Recieving code
 				DEBUGCON(" [CrossCheatTalkNetwork::OnNewFrame] Message Recieved With Invalid Size In Header!");
+				pMsg->Release();
+				continue;
+			}
+
+			if (pHeader->nSize < 1)
+			{
+				// 0-Sized packets are valid! but we don't want to malloc or memcpy that or attempt to process it!
+				// So we knick them out here. Ha-ha take that valve, cheat networking code is better than yours!
+				pMsg->Release();
 				continue;
 			}
 
