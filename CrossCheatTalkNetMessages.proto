@@ -1,0 +1,17 @@
+enum CrossCheatMsgType {
+	_ConnectionAccepted = 0;
+	_ChatMessage = 1;
+}
+
+
+message ConnectionAcceptedMessage
+{
+	required uint32 steamid = 1;
+}
+
+message ChatMessage
+{
+	required uint32 steamid = 1;
+	required string message = 2;
+
+}
