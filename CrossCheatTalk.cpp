@@ -39,9 +39,8 @@ void CrossCheatTalkNetwork::OnNewFrame()
 	if ((dbLastSearchTime  < (Plat_FloatTime() - TIME_PER_GLOBAL_SEARCH)))
 	{
 		dbLastSearchTime = Plat_FloatTime();
-		//Search();
+		Search();
 	}
-
 
 	for (int nOpenPort : m_vOpenPorts) {
 		int nMessagesRecieved = Globals::g_pSteamNetworkingMessages->ReceiveMessagesOnChannel(nOpenPort, &pMsgArray, MAX_PACKETS_TO_PROCESS);
@@ -135,6 +134,16 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				pMsg->Release();
 				continue;
 			}
+
+			if (IsMessagePriviledged(pHeader->nType)) // Is this restricted to certain clients?
+			{
+				if (!pClient->AllowedToProcessMessage(pHeader->nType))
+				{
+					pMsg->Release();
+					continue;
+				}
+			}
+
 
 			char* pBuffer = (char*)malloc(nDataSize);
 			std::memcpy(pBuffer, pMsg->GetData(), nDataSize);
