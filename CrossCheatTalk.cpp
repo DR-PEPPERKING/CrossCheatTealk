@@ -83,6 +83,8 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				continue;
 			}
 
+			pClient->OnNewPacket(); // This needs to go before the ratelimit check!
+
 			if (pClient->AreRateLimiting())
 			{
 				if (pClient->ShouldDisconnectSpammer()) // Get da fook outta Here!
@@ -93,9 +95,6 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				pMsg->Release();
 				continue;
 			}
-
-
-			pClient->OnNewPacket();
 
 			if (pHeader->bIsConnectionInit)
 			{
