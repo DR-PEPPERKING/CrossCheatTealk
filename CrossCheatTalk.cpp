@@ -42,8 +42,6 @@ void CrossCheatTalkNetwork::OnNewFrame()
 		//Search();
 	}
 
-	int fuck = m_Clients.size();
-	int j = fuck;
 
 	for (int nOpenPort : m_vOpenPorts) {
 		int nMessagesRecieved = Globals::g_pSteamNetworkingMessages->ReceiveMessagesOnChannel(nOpenPort, &pMsgArray, MAX_PACKETS_TO_PROCESS);
