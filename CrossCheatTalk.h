@@ -24,7 +24,7 @@ struct MsgHeader_t {
 	uint32_t SteamID;
 	CrossCheatMsgType nType;
 	bool bIsConnectionInit{ false };
-	bool bVoice{ false }; // VoiceChannel SomeDay? SteamWorks has all the needed stuff!
+	bool bVoice{ false };
 };
 #pragma pack(pop)
 
@@ -328,7 +328,6 @@ public:
 		pHeader->nSize = 0;
 		pHeader->nType = CrossCheatMsgType::_ConnectionAccepted;
 		pHeader->SteamID = csID.GetAccountID();
-		pHeader->bVoice = false;
 		pHeader->bIsConnectionInit = true;
 		strcpy(pHeader->CHEAT, "CHEAT");
 		Globals::g_pSteamNetworkingMessages->SendMessageToUser(idRemote, pBuffer, sizeof(MsgHeader_t), k_nSteamNetworkingSend_ReliableNoNagle | k_nSteamNetworkingSend_AutoRestartBrokenSession, 58);
@@ -344,7 +343,6 @@ public:
 		pHeader->nSize = nMessageSize;
 		pHeader->nType = nType;
 		pHeader->SteamID = Globals::g_pSteamUser->GetSteamID().GetAccountID();
-		pHeader->bVoice = false;
 		pHeader->bIsConnectionInit = false;
 		strcpy(pHeader->CHEAT, "CHEAT");
 		SteamNetworkingIdentity Iden;
@@ -439,3 +437,5 @@ void CrossCheat_Initialize(); // Initalizes
 
 void SessionFailedHandler(SteamNetworkingMessagesSessionFailed_t* pSessionFailed);
 void SessionRequestHandler(SteamNetworkingMessagesSessionRequest_t* pRequest);
+
+

@@ -34,7 +34,7 @@ void protobuf_ShutdownFile_CrossCheatTalkNetMessages_2eproto();
 
 class ConnectionAcceptedMessage;
 class ChatMessage;
-class Vector;
+class SharedESPVector;
 class SharedEspPlayerData;
 class StandardizedSharedESP;
 class StandardizedCheatInformation;
@@ -264,14 +264,14 @@ class ChatMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Vector : public ::google::protobuf::Message {
+class SharedESPVector : public ::google::protobuf::Message {
  public:
-  Vector();
-  virtual ~Vector();
+  SharedESPVector();
+  virtual ~SharedESPVector();
 
-  Vector(const Vector& from);
+  SharedESPVector(const SharedESPVector& from);
 
-  inline Vector& operator=(const Vector& from) {
+  inline SharedESPVector& operator=(const SharedESPVector& from) {
     CopyFrom(from);
     return *this;
   }
@@ -285,17 +285,17 @@ class Vector : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Vector& default_instance();
+  static const SharedESPVector& default_instance();
 
-  void Swap(Vector* other);
+  void Swap(SharedESPVector* other);
 
   // implements Message ----------------------------------------------
 
-  Vector* New() const;
+  SharedESPVector* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Vector& from);
-  void MergeFrom(const Vector& from);
+  void CopyFrom(const SharedESPVector& from);
+  void MergeFrom(const SharedESPVector& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -339,7 +339,7 @@ class Vector : public ::google::protobuf::Message {
   inline float z() const;
   inline void set_z(float value);
 
-  // @@protoc_insertion_point(class_scope:Vector)
+  // @@protoc_insertion_point(class_scope:SharedESPVector)
  private:
   inline void set_has_x();
   inline void clear_has_x();
@@ -362,7 +362,7 @@ class Vector : public ::google::protobuf::Message {
   friend void protobuf_ShutdownFile_CrossCheatTalkNetMessages_2eproto();
 
   void InitAsDefaultInstance();
-  static Vector* default_instance_;
+  static SharedESPVector* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -462,14 +462,14 @@ class SharedEspPlayerData : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 player_steam_id() const;
   inline void set_player_steam_id(::google::protobuf::uint32 value);
 
-  // required .Vector player_origin = 4;
+  // required .SharedESPVector player_origin = 4;
   inline bool has_player_origin() const;
   inline void clear_player_origin();
   static const int kPlayerOriginFieldNumber = 4;
-  inline const ::Vector& player_origin() const;
-  inline ::Vector* mutable_player_origin();
-  inline ::Vector* release_player_origin();
-  inline void set_allocated_player_origin(::Vector* player_origin);
+  inline const ::SharedESPVector& player_origin() const;
+  inline ::SharedESPVector* mutable_player_origin();
+  inline ::SharedESPVector* release_player_origin();
+  inline void set_allocated_player_origin(::SharedESPVector* player_origin);
 
   // optional int32 player_health = 5;
   inline bool has_player_health() const;
@@ -485,23 +485,23 @@ class SharedEspPlayerData : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 player_armor() const;
   inline void set_player_armor(::google::protobuf::int32 value);
 
-  // optional .Vector player_bbmin = 7;
+  // optional .SharedESPVector player_bbmin = 7;
   inline bool has_player_bbmin() const;
   inline void clear_player_bbmin();
   static const int kPlayerBbminFieldNumber = 7;
-  inline const ::Vector& player_bbmin() const;
-  inline ::Vector* mutable_player_bbmin();
-  inline ::Vector* release_player_bbmin();
-  inline void set_allocated_player_bbmin(::Vector* player_bbmin);
+  inline const ::SharedESPVector& player_bbmin() const;
+  inline ::SharedESPVector* mutable_player_bbmin();
+  inline ::SharedESPVector* release_player_bbmin();
+  inline void set_allocated_player_bbmin(::SharedESPVector* player_bbmin);
 
-  // optional .Vector player_bbmax = 8;
+  // optional .SharedESPVector player_bbmax = 8;
   inline bool has_player_bbmax() const;
   inline void clear_player_bbmax();
   static const int kPlayerBbmaxFieldNumber = 8;
-  inline const ::Vector& player_bbmax() const;
-  inline ::Vector* mutable_player_bbmax();
-  inline ::Vector* release_player_bbmax();
-  inline void set_allocated_player_bbmax(::Vector* player_bbmax);
+  inline const ::SharedESPVector& player_bbmax() const;
+  inline ::SharedESPVector* mutable_player_bbmax();
+  inline ::SharedESPVector* release_player_bbmax();
+  inline void set_allocated_player_bbmax(::SharedESPVector* player_bbmax);
 
   // optional int32 player_active_weapon = 9;
   inline bool has_player_active_weapon() const;
@@ -551,11 +551,11 @@ class SharedEspPlayerData : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 player_user_id_;
   ::google::protobuf::uint32 player_steam_id_;
-  ::Vector* player_origin_;
+  ::SharedESPVector* player_origin_;
   ::google::protobuf::int32 player_health_;
   ::google::protobuf::int32 player_armor_;
-  ::Vector* player_bbmin_;
-  ::Vector* player_bbmax_;
+  ::SharedESPVector* player_bbmin_;
+  ::SharedESPVector* player_bbmax_;
   ::google::protobuf::int32 player_active_weapon_;
   ::google::protobuf::int32 player_ammo_count_;
   ::google::protobuf::int32 player_clip_size_;
@@ -899,70 +899,70 @@ inline void ChatMessage::set_allocated_message(::std::string* message) {
 
 // -------------------------------------------------------------------
 
-// Vector
+// SharedESPVector
 
 // required float x = 1;
-inline bool Vector::has_x() const {
+inline bool SharedESPVector::has_x() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void Vector::set_has_x() {
+inline void SharedESPVector::set_has_x() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void Vector::clear_has_x() {
+inline void SharedESPVector::clear_has_x() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void Vector::clear_x() {
+inline void SharedESPVector::clear_x() {
   x_ = 0;
   clear_has_x();
 }
-inline float Vector::x() const {
+inline float SharedESPVector::x() const {
   return x_;
 }
-inline void Vector::set_x(float value) {
+inline void SharedESPVector::set_x(float value) {
   set_has_x();
   x_ = value;
 }
 
 // required float y = 2;
-inline bool Vector::has_y() const {
+inline bool SharedESPVector::has_y() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void Vector::set_has_y() {
+inline void SharedESPVector::set_has_y() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void Vector::clear_has_y() {
+inline void SharedESPVector::clear_has_y() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void Vector::clear_y() {
+inline void SharedESPVector::clear_y() {
   y_ = 0;
   clear_has_y();
 }
-inline float Vector::y() const {
+inline float SharedESPVector::y() const {
   return y_;
 }
-inline void Vector::set_y(float value) {
+inline void SharedESPVector::set_y(float value) {
   set_has_y();
   y_ = value;
 }
 
 // required float z = 3;
-inline bool Vector::has_z() const {
+inline bool SharedESPVector::has_z() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void Vector::set_has_z() {
+inline void SharedESPVector::set_has_z() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void Vector::clear_has_z() {
+inline void SharedESPVector::clear_has_z() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void Vector::clear_z() {
+inline void SharedESPVector::clear_z() {
   z_ = 0;
   clear_has_z();
 }
-inline float Vector::z() const {
+inline float SharedESPVector::z() const {
   return z_;
 }
-inline void Vector::set_z(float value) {
+inline void SharedESPVector::set_z(float value) {
   set_has_z();
   z_ = value;
 }
@@ -1015,7 +1015,7 @@ inline void SharedEspPlayerData::set_player_steam_id(::google::protobuf::uint32 
   player_steam_id_ = value;
 }
 
-// required .Vector player_origin = 4;
+// required .SharedESPVector player_origin = 4;
 inline bool SharedEspPlayerData::has_player_origin() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1026,24 +1026,24 @@ inline void SharedEspPlayerData::clear_has_player_origin() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void SharedEspPlayerData::clear_player_origin() {
-  if (player_origin_ != NULL) player_origin_->::Vector::Clear();
+  if (player_origin_ != NULL) player_origin_->::SharedESPVector::Clear();
   clear_has_player_origin();
 }
-inline const ::Vector& SharedEspPlayerData::player_origin() const {
+inline const ::SharedESPVector& SharedEspPlayerData::player_origin() const {
   return player_origin_ != NULL ? *player_origin_ : *default_instance_->player_origin_;
 }
-inline ::Vector* SharedEspPlayerData::mutable_player_origin() {
+inline ::SharedESPVector* SharedEspPlayerData::mutable_player_origin() {
   set_has_player_origin();
-  if (player_origin_ == NULL) player_origin_ = new ::Vector;
+  if (player_origin_ == NULL) player_origin_ = new ::SharedESPVector;
   return player_origin_;
 }
-inline ::Vector* SharedEspPlayerData::release_player_origin() {
+inline ::SharedESPVector* SharedEspPlayerData::release_player_origin() {
   clear_has_player_origin();
-  ::Vector* temp = player_origin_;
+  ::SharedESPVector* temp = player_origin_;
   player_origin_ = NULL;
   return temp;
 }
-inline void SharedEspPlayerData::set_allocated_player_origin(::Vector* player_origin) {
+inline void SharedEspPlayerData::set_allocated_player_origin(::SharedESPVector* player_origin) {
   delete player_origin_;
   player_origin_ = player_origin;
   if (player_origin) {
@@ -1097,7 +1097,7 @@ inline void SharedEspPlayerData::set_player_armor(::google::protobuf::int32 valu
   player_armor_ = value;
 }
 
-// optional .Vector player_bbmin = 7;
+// optional .SharedESPVector player_bbmin = 7;
 inline bool SharedEspPlayerData::has_player_bbmin() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
@@ -1108,24 +1108,24 @@ inline void SharedEspPlayerData::clear_has_player_bbmin() {
   _has_bits_[0] &= ~0x00000020u;
 }
 inline void SharedEspPlayerData::clear_player_bbmin() {
-  if (player_bbmin_ != NULL) player_bbmin_->::Vector::Clear();
+  if (player_bbmin_ != NULL) player_bbmin_->::SharedESPVector::Clear();
   clear_has_player_bbmin();
 }
-inline const ::Vector& SharedEspPlayerData::player_bbmin() const {
+inline const ::SharedESPVector& SharedEspPlayerData::player_bbmin() const {
   return player_bbmin_ != NULL ? *player_bbmin_ : *default_instance_->player_bbmin_;
 }
-inline ::Vector* SharedEspPlayerData::mutable_player_bbmin() {
+inline ::SharedESPVector* SharedEspPlayerData::mutable_player_bbmin() {
   set_has_player_bbmin();
-  if (player_bbmin_ == NULL) player_bbmin_ = new ::Vector;
+  if (player_bbmin_ == NULL) player_bbmin_ = new ::SharedESPVector;
   return player_bbmin_;
 }
-inline ::Vector* SharedEspPlayerData::release_player_bbmin() {
+inline ::SharedESPVector* SharedEspPlayerData::release_player_bbmin() {
   clear_has_player_bbmin();
-  ::Vector* temp = player_bbmin_;
+  ::SharedESPVector* temp = player_bbmin_;
   player_bbmin_ = NULL;
   return temp;
 }
-inline void SharedEspPlayerData::set_allocated_player_bbmin(::Vector* player_bbmin) {
+inline void SharedEspPlayerData::set_allocated_player_bbmin(::SharedESPVector* player_bbmin) {
   delete player_bbmin_;
   player_bbmin_ = player_bbmin;
   if (player_bbmin) {
@@ -1135,7 +1135,7 @@ inline void SharedEspPlayerData::set_allocated_player_bbmin(::Vector* player_bbm
   }
 }
 
-// optional .Vector player_bbmax = 8;
+// optional .SharedESPVector player_bbmax = 8;
 inline bool SharedEspPlayerData::has_player_bbmax() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -1146,24 +1146,24 @@ inline void SharedEspPlayerData::clear_has_player_bbmax() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline void SharedEspPlayerData::clear_player_bbmax() {
-  if (player_bbmax_ != NULL) player_bbmax_->::Vector::Clear();
+  if (player_bbmax_ != NULL) player_bbmax_->::SharedESPVector::Clear();
   clear_has_player_bbmax();
 }
-inline const ::Vector& SharedEspPlayerData::player_bbmax() const {
+inline const ::SharedESPVector& SharedEspPlayerData::player_bbmax() const {
   return player_bbmax_ != NULL ? *player_bbmax_ : *default_instance_->player_bbmax_;
 }
-inline ::Vector* SharedEspPlayerData::mutable_player_bbmax() {
+inline ::SharedESPVector* SharedEspPlayerData::mutable_player_bbmax() {
   set_has_player_bbmax();
-  if (player_bbmax_ == NULL) player_bbmax_ = new ::Vector;
+  if (player_bbmax_ == NULL) player_bbmax_ = new ::SharedESPVector;
   return player_bbmax_;
 }
-inline ::Vector* SharedEspPlayerData::release_player_bbmax() {
+inline ::SharedESPVector* SharedEspPlayerData::release_player_bbmax() {
   clear_has_player_bbmax();
-  ::Vector* temp = player_bbmax_;
+  ::SharedESPVector* temp = player_bbmax_;
   player_bbmax_ = NULL;
   return temp;
 }
-inline void SharedEspPlayerData::set_allocated_player_bbmax(::Vector* player_bbmax) {
+inline void SharedEspPlayerData::set_allocated_player_bbmax(::SharedESPVector* player_bbmax) {
   delete player_bbmax_;
   player_bbmax_ = player_bbmax;
   if (player_bbmax) {

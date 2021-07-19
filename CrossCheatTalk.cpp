@@ -144,6 +144,7 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				}
 			}
 
+			// TODO : Setup Decryption for Optional Encryption
 
 			char* pBuffer = (char*)malloc(nDataSize);
 

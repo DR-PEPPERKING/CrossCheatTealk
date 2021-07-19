@@ -24,9 +24,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* ChatMessage_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   ChatMessage_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Vector_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* SharedESPVector_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  Vector_reflection_ = NULL;
+  SharedESPVector_reflection_ = NULL;
 const ::google::protobuf::Descriptor* SharedEspPlayerData_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   SharedEspPlayerData_reflection_ = NULL;
@@ -79,23 +79,23 @@ void protobuf_AssignDesc_CrossCheatTalkNetMessages_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(ChatMessage));
-  Vector_descriptor_ = file->message_type(2);
-  static const int Vector_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vector, x_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vector, y_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vector, z_),
+  SharedESPVector_descriptor_ = file->message_type(2);
+  static const int SharedESPVector_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedESPVector, x_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedESPVector, y_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedESPVector, z_),
   };
-  Vector_reflection_ =
+  SharedESPVector_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
-      Vector_descriptor_,
-      Vector::default_instance_,
-      Vector_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vector, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vector, _unknown_fields_),
+      SharedESPVector_descriptor_,
+      SharedESPVector::default_instance_,
+      SharedESPVector_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedESPVector, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedESPVector, _unknown_fields_),
       -1,
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Vector));
+      sizeof(SharedESPVector));
   SharedEspPlayerData_descriptor_ = file->message_type(3);
   static const int SharedEspPlayerData_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SharedEspPlayerData, player_user_id_),
@@ -172,7 +172,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     ChatMessage_descriptor_, &ChatMessage::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Vector_descriptor_, &Vector::default_instance());
+    SharedESPVector_descriptor_, &SharedESPVector::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     SharedEspPlayerData_descriptor_, &SharedEspPlayerData::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -188,8 +188,8 @@ void protobuf_ShutdownFile_CrossCheatTalkNetMessages_2eproto() {
   delete ConnectionAcceptedMessage_reflection_;
   delete ChatMessage::default_instance_;
   delete ChatMessage_reflection_;
-  delete Vector::default_instance_;
-  delete Vector_reflection_;
+  delete SharedESPVector::default_instance_;
+  delete SharedESPVector_reflection_;
   delete SharedEspPlayerData::default_instance_;
   delete SharedEspPlayerData_reflection_;
   delete StandardizedSharedESP::default_instance_;
@@ -208,37 +208,38 @@ void protobuf_AddDesc_CrossCheatTalkNetMessages_2eproto() {
     "\n\037CrossCheatTalkNetMessages.proto\"3\n\031Con"
     "nectionAcceptedMessage\022\026\n\016sender_steamid"
     "\030\001 \002(\r\"6\n\013ChatMessage\022\026\n\016sender_steamid\030"
-    "\001 \002(\r\022\017\n\007message\030\002 \002(\t\")\n\006Vector\022\t\n\001x\030\001 "
-    "\002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\223\003\n\023SharedEspP"
-    "layerData\022\026\n\016player_user_id\030\002 \002(\r\022\027\n\017pla"
-    "yer_steam_id\030\003 \002(\r\022\036\n\rplayer_origin\030\004 \002("
-    "\0132\007.Vector\022\025\n\rplayer_health\030\005 \001(\005\022\024\n\014pla"
-    "yer_armor\030\006 \001(\005\022\035\n\014player_bbmin\030\007 \001(\0132\007."
-    "Vector\022\035\n\014player_bbmax\030\010 \001(\0132\007.Vector\022\034\n"
-    "\024player_active_weapon\030\t \001(\005\022\031\n\021player_am"
-    "mo_count\030\n \001(\005\022\030\n\020player_clip_size\030\013 \001(\005"
-    "\"m\n\033StandardizedPlayerDataFlags\022\n\n\006SCOPE"
-    "D\020\001\022\014\n\010DEFUSING\020\002\022\013\n\007FLASHED\020\003\022\n\n\006HAS_C4"
-    "\020\004\022\r\n\tRELOADING\020\005\022\014\n\010PLANTING\020\006\"u\n\025Stand"
-    "ardizedSharedESP\022\026\n\016sender_steamid\030\001 \002(\r"
-    "\022\031\n\021message_send_time\030\002 \002(\002\022)\n\013player_da"
-    "ta\030\003 \003(\0132\024.SharedEspPlayerData\"J\n\034Standa"
-    "rdizedCheatInformation\022\026\n\016sender_steamid"
-    "\030\001 \002(\r\022\022\n\ncheat_name\030\002 \001(\t*}\n\021CrossCheat"
-    "MsgType\022\027\n\023_ConnectionAccepted\020\000\022\020\n\014_Cha"
-    "tMessage\020\001\022\032\n\026_StandardizedSharedESP\020\002\022!"
-    "\n\035_StandardizedCheatInformation\020\003", 913);
+    "\001 \002(\r\022\017\n\007message\030\002 \002(\t\"2\n\017SharedESPVecto"
+    "r\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\256\003\n\023S"
+    "haredEspPlayerData\022\026\n\016player_user_id\030\002 \002"
+    "(\r\022\027\n\017player_steam_id\030\003 \002(\r\022\'\n\rplayer_or"
+    "igin\030\004 \002(\0132\020.SharedESPVector\022\025\n\rplayer_h"
+    "ealth\030\005 \001(\005\022\024\n\014player_armor\030\006 \001(\005\022&\n\014pla"
+    "yer_bbmin\030\007 \001(\0132\020.SharedESPVector\022&\n\014pla"
+    "yer_bbmax\030\010 \001(\0132\020.SharedESPVector\022\034\n\024pla"
+    "yer_active_weapon\030\t \001(\005\022\031\n\021player_ammo_c"
+    "ount\030\n \001(\005\022\030\n\020player_clip_size\030\013 \001(\005\"m\n\033"
+    "StandardizedPlayerDataFlags\022\n\n\006SCOPED\020\001\022"
+    "\014\n\010DEFUSING\020\002\022\013\n\007FLASHED\020\003\022\n\n\006HAS_C4\020\004\022\r"
+    "\n\tRELOADING\020\005\022\014\n\010PLANTING\020\006\"u\n\025Standardi"
+    "zedSharedESP\022\026\n\016sender_steamid\030\001 \002(\r\022\031\n\021"
+    "message_send_time\030\002 \002(\002\022)\n\013player_data\030\003"
+    " \003(\0132\024.SharedEspPlayerData\"J\n\034Standardiz"
+    "edCheatInformation\022\026\n\016sender_steamid\030\001 \002"
+    "(\r\022\022\n\ncheat_name\030\002 \001(\t*}\n\021CrossCheatMsgT"
+    "ype\022\027\n\023_ConnectionAccepted\020\000\022\020\n\014_ChatMes"
+    "sage\020\001\022\032\n\026_StandardizedSharedESP\020\002\022!\n\035_S"
+    "tandardizedCheatInformation\020\003", 949);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "CrossCheatTalkNetMessages.proto", &protobuf_RegisterTypes);
   ConnectionAcceptedMessage::default_instance_ = new ConnectionAcceptedMessage();
   ChatMessage::default_instance_ = new ChatMessage();
-  Vector::default_instance_ = new Vector();
+  SharedESPVector::default_instance_ = new SharedESPVector();
   SharedEspPlayerData::default_instance_ = new SharedEspPlayerData();
   StandardizedSharedESP::default_instance_ = new StandardizedSharedESP();
   StandardizedCheatInformation::default_instance_ = new StandardizedCheatInformation();
   ConnectionAcceptedMessage::default_instance_->InitAsDefaultInstance();
   ChatMessage::default_instance_->InitAsDefaultInstance();
-  Vector::default_instance_->InitAsDefaultInstance();
+  SharedESPVector::default_instance_->InitAsDefaultInstance();
   SharedEspPlayerData::default_instance_->InitAsDefaultInstance();
   StandardizedSharedESP::default_instance_->InitAsDefaultInstance();
   StandardizedCheatInformation::default_instance_->InitAsDefaultInstance();
@@ -746,26 +747,26 @@ void ChatMessage::Swap(ChatMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int Vector::kXFieldNumber;
-const int Vector::kYFieldNumber;
-const int Vector::kZFieldNumber;
+const int SharedESPVector::kXFieldNumber;
+const int SharedESPVector::kYFieldNumber;
+const int SharedESPVector::kZFieldNumber;
 #endif  // !_MSC_VER
 
-Vector::Vector()
+SharedESPVector::SharedESPVector()
   : ::google::protobuf::Message() {
   SharedCtor();
 }
 
-void Vector::InitAsDefaultInstance() {
+void SharedESPVector::InitAsDefaultInstance() {
 }
 
-Vector::Vector(const Vector& from)
+SharedESPVector::SharedESPVector(const SharedESPVector& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void Vector::SharedCtor() {
+void SharedESPVector::SharedCtor() {
   _cached_size_ = 0;
   x_ = 0;
   y_ = 0;
@@ -773,37 +774,37 @@ void Vector::SharedCtor() {
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-Vector::~Vector() {
+SharedESPVector::~SharedESPVector() {
   SharedDtor();
 }
 
-void Vector::SharedDtor() {
+void SharedESPVector::SharedDtor() {
   if (this != default_instance_) {
   }
 }
 
-void Vector::SetCachedSize(int size) const {
+void SharedESPVector::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Vector::descriptor() {
+const ::google::protobuf::Descriptor* SharedESPVector::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return Vector_descriptor_;
+  return SharedESPVector_descriptor_;
 }
 
-const Vector& Vector::default_instance() {
+const SharedESPVector& SharedESPVector::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_CrossCheatTalkNetMessages_2eproto();
   return *default_instance_;
 }
 
-Vector* Vector::default_instance_ = NULL;
+SharedESPVector* SharedESPVector::default_instance_ = NULL;
 
-Vector* Vector::New() const {
-  return new Vector;
+SharedESPVector* SharedESPVector::New() const {
+  return new SharedESPVector;
 }
 
-void Vector::Clear() {
+void SharedESPVector::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     x_ = 0;
     y_ = 0;
@@ -813,7 +814,7 @@ void Vector::Clear() {
   mutable_unknown_fields()->Clear();
 }
 
-bool Vector::MergePartialFromCodedStream(
+bool SharedESPVector::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
@@ -882,7 +883,7 @@ bool Vector::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void Vector::SerializeWithCachedSizes(
+void SharedESPVector::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required float x = 1;
   if (has_x()) {
@@ -905,7 +906,7 @@ void Vector::SerializeWithCachedSizes(
   }
 }
 
-::google::protobuf::uint8* Vector::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* SharedESPVector::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // required float x = 1;
   if (has_x()) {
@@ -929,7 +930,7 @@ void Vector::SerializeWithCachedSizes(
   return target;
 }
 
-int Vector::ByteSize() const {
+int SharedESPVector::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -960,10 +961,10 @@ int Vector::ByteSize() const {
   return total_size;
 }
 
-void Vector::MergeFrom(const ::google::protobuf::Message& from) {
+void SharedESPVector::MergeFrom(const ::google::protobuf::Message& from) {
   GOOGLE_CHECK_NE(&from, this);
-  const Vector* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Vector*>(
+  const SharedESPVector* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const SharedESPVector*>(
       &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
@@ -972,7 +973,7 @@ void Vector::MergeFrom(const ::google::protobuf::Message& from) {
   }
 }
 
-void Vector::MergeFrom(const Vector& from) {
+void SharedESPVector::MergeFrom(const SharedESPVector& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_x()) {
@@ -988,25 +989,25 @@ void Vector::MergeFrom(const Vector& from) {
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
-void Vector::CopyFrom(const ::google::protobuf::Message& from) {
+void SharedESPVector::CopyFrom(const ::google::protobuf::Message& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Vector::CopyFrom(const Vector& from) {
+void SharedESPVector::CopyFrom(const SharedESPVector& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Vector::IsInitialized() const {
+bool SharedESPVector::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   return true;
 }
 
-void Vector::Swap(Vector* other) {
+void SharedESPVector::Swap(SharedESPVector* other) {
   if (other != this) {
     std::swap(x_, other->x_);
     std::swap(y_, other->y_);
@@ -1017,11 +1018,11 @@ void Vector::Swap(Vector* other) {
   }
 }
 
-::google::protobuf::Metadata Vector::GetMetadata() const {
+::google::protobuf::Metadata SharedESPVector::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Vector_descriptor_;
-  metadata.reflection = Vector_reflection_;
+  metadata.descriptor = SharedESPVector_descriptor_;
+  metadata.reflection = SharedESPVector_reflection_;
   return metadata;
 }
 
@@ -1076,9 +1077,9 @@ SharedEspPlayerData::SharedEspPlayerData()
 }
 
 void SharedEspPlayerData::InitAsDefaultInstance() {
-  player_origin_ = const_cast< ::Vector*>(&::Vector::default_instance());
-  player_bbmin_ = const_cast< ::Vector*>(&::Vector::default_instance());
-  player_bbmax_ = const_cast< ::Vector*>(&::Vector::default_instance());
+  player_origin_ = const_cast< ::SharedESPVector*>(&::SharedESPVector::default_instance());
+  player_bbmin_ = const_cast< ::SharedESPVector*>(&::SharedESPVector::default_instance());
+  player_bbmax_ = const_cast< ::SharedESPVector*>(&::SharedESPVector::default_instance());
 }
 
 SharedEspPlayerData::SharedEspPlayerData(const SharedEspPlayerData& from)
@@ -1140,15 +1141,15 @@ void SharedEspPlayerData::Clear() {
     player_user_id_ = 0u;
     player_steam_id_ = 0u;
     if (has_player_origin()) {
-      if (player_origin_ != NULL) player_origin_->::Vector::Clear();
+      if (player_origin_ != NULL) player_origin_->::SharedESPVector::Clear();
     }
     player_health_ = 0;
     player_armor_ = 0;
     if (has_player_bbmin()) {
-      if (player_bbmin_ != NULL) player_bbmin_->::Vector::Clear();
+      if (player_bbmin_ != NULL) player_bbmin_->::SharedESPVector::Clear();
     }
     if (has_player_bbmax()) {
-      if (player_bbmax_ != NULL) player_bbmax_->::Vector::Clear();
+      if (player_bbmax_ != NULL) player_bbmax_->::SharedESPVector::Clear();
     }
     player_active_weapon_ = 0;
   }
@@ -1197,7 +1198,7 @@ bool SharedEspPlayerData::MergePartialFromCodedStream(
         break;
       }
 
-      // required .Vector player_origin = 4;
+      // required .SharedESPVector player_origin = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1243,7 +1244,7 @@ bool SharedEspPlayerData::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .Vector player_bbmin = 7;
+      // optional .SharedESPVector player_bbmin = 7;
       case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1257,7 +1258,7 @@ bool SharedEspPlayerData::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .Vector player_bbmax = 8;
+      // optional .SharedESPVector player_bbmax = 8;
       case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1347,7 +1348,7 @@ void SharedEspPlayerData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->player_steam_id(), output);
   }
 
-  // required .Vector player_origin = 4;
+  // required .SharedESPVector player_origin = 4;
   if (has_player_origin()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->player_origin(), output);
@@ -1363,13 +1364,13 @@ void SharedEspPlayerData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->player_armor(), output);
   }
 
-  // optional .Vector player_bbmin = 7;
+  // optional .SharedESPVector player_bbmin = 7;
   if (has_player_bbmin()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       7, this->player_bbmin(), output);
   }
 
-  // optional .Vector player_bbmax = 8;
+  // optional .SharedESPVector player_bbmax = 8;
   if (has_player_bbmax()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       8, this->player_bbmax(), output);
@@ -1408,7 +1409,7 @@ void SharedEspPlayerData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->player_steam_id(), target);
   }
 
-  // required .Vector player_origin = 4;
+  // required .SharedESPVector player_origin = 4;
   if (has_player_origin()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -1425,14 +1426,14 @@ void SharedEspPlayerData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->player_armor(), target);
   }
 
-  // optional .Vector player_bbmin = 7;
+  // optional .SharedESPVector player_bbmin = 7;
   if (has_player_bbmin()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         7, this->player_bbmin(), target);
   }
 
-  // optional .Vector player_bbmax = 8;
+  // optional .SharedESPVector player_bbmax = 8;
   if (has_player_bbmax()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -1479,7 +1480,7 @@ int SharedEspPlayerData::ByteSize() const {
           this->player_steam_id());
     }
 
-    // required .Vector player_origin = 4;
+    // required .SharedESPVector player_origin = 4;
     if (has_player_origin()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1500,14 +1501,14 @@ int SharedEspPlayerData::ByteSize() const {
           this->player_armor());
     }
 
-    // optional .Vector player_bbmin = 7;
+    // optional .SharedESPVector player_bbmin = 7;
     if (has_player_bbmin()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->player_bbmin());
     }
 
-    // optional .Vector player_bbmax = 8;
+    // optional .SharedESPVector player_bbmax = 8;
     if (has_player_bbmax()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1571,7 +1572,7 @@ void SharedEspPlayerData::MergeFrom(const SharedEspPlayerData& from) {
       set_player_steam_id(from.player_steam_id());
     }
     if (from.has_player_origin()) {
-      mutable_player_origin()->::Vector::MergeFrom(from.player_origin());
+      mutable_player_origin()->::SharedESPVector::MergeFrom(from.player_origin());
     }
     if (from.has_player_health()) {
       set_player_health(from.player_health());
@@ -1580,10 +1581,10 @@ void SharedEspPlayerData::MergeFrom(const SharedEspPlayerData& from) {
       set_player_armor(from.player_armor());
     }
     if (from.has_player_bbmin()) {
-      mutable_player_bbmin()->::Vector::MergeFrom(from.player_bbmin());
+      mutable_player_bbmin()->::SharedESPVector::MergeFrom(from.player_bbmin());
     }
     if (from.has_player_bbmax()) {
-      mutable_player_bbmax()->::Vector::MergeFrom(from.player_bbmax());
+      mutable_player_bbmax()->::SharedESPVector::MergeFrom(from.player_bbmax());
     }
     if (from.has_player_active_weapon()) {
       set_player_active_weapon(from.player_active_weapon());

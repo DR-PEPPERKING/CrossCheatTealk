@@ -17,7 +17,7 @@ message ChatMessage
 	required string message = 2;
 }
 
-message Vector
+message SharedESPVector
 {
 	required float x = 1;
 	required float y = 2;
@@ -38,11 +38,11 @@ message SharedEspPlayerData
 
 	required uint32 player_user_id = 2;
 	required uint32 player_steam_id = 3;
-	required Vector player_origin = 4;
+	required SharedESPVector player_origin = 4;
 	optional int32 player_health = 5;
 	optional int32 player_armor = 6;
-	optional Vector player_bbmin = 7;
-	optional Vector player_bbmax = 8;
+	optional SharedESPVector player_bbmin = 7;
+	optional SharedESPVector player_bbmax = 8;
 	optional int32 player_active_weapon = 9;
 	optional int32 player_ammo_count = 10;
 	optional int32 player_clip_size = 11;
