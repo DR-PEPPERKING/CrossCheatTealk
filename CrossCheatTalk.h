@@ -223,8 +223,6 @@ public:
 				CullDeadClients(); // Recursive else the iterator will cause a crash!
 				return;
 			}
-			//Globals::g_pSteamNetworkingSockets->GetConnec
-
 		}
 	};
 
@@ -329,7 +327,6 @@ public:
 
 	CrossCheatClient* ConnectClient(SteamNetworkingIdentity idRemote)
 	{
-		//SetupSteamNetworkingSocketsDatagramConnection(idRemote.GetSteamID());
 		CrossCheatClient* pClient = CreateClientForNetworkingIdentity(idRemote);
 		Globals::g_pSteamNetworkingMessages->AcceptSessionWithUser(idRemote);
 		Globals::g_pSteamFriends->RequestUserInformation(pClient->GetClientSteamID(), true);

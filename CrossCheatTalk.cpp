@@ -37,15 +37,12 @@ void CrossCheatTalkNetwork::OnNewFrame()
 	SteamNetworkingMessage_t* pMsgArray[MAX_PACKETS_TO_PROCESS]{};
 
 
-	//Globals::g_pSteamNetworkingSockets->GetConnectionp2p2
 	ESteamNetworkingAvailability NetworkingAvaliablity = Globals::g_pSteamNetworkingUtils->GetRelayNetworkStatus(nullptr);
-
 	if (NetworkingAvaliablity < 0)
 	{
 		// No Connection. Possibly not on a valve server. Need to start our connection.
 		SetupSteamNetworkingSocketsDatagramConnection();
 	}
-
 
 	static double dbLastSearchTime{ 0.0 };
 	if ((dbLastSearchTime  < (Plat_FloatTime() - TIME_PER_GLOBAL_SEARCH)))
@@ -97,6 +94,7 @@ void CrossCheatTalkNetwork::OnNewFrame()
 			if (!pClient) // Are We Even Still Connected To This Client?
 			{
 				ConnectClient(pMsg->m_identityPeer);
+				SendConnectionRequestToClient(pMsg->m_identityPeer.GetSteamID());
 				// Valid Edge case. 
 				// If we actually Disconnected them we wouldn't have gotten this.
 				// Super rare this actually occurs
