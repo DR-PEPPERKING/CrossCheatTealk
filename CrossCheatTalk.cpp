@@ -146,13 +146,14 @@ void CrossCheatTalkNetwork::OnNewFrame()
 
 
 			char* pBuffer = (char*)malloc(nDataSize);
-			std::memcpy(pBuffer, pMsg->GetData(), nDataSize);
-			pHeader = reinterpret_cast<MsgHeader_t*>(pBuffer);
 
 			if (!pBuffer) { // uh oh!
 				pMsg->Release();
 				continue;
 			}
+
+			std::memcpy(pBuffer, pMsg->GetData(), nDataSize);
+			pHeader = reinterpret_cast<MsgHeader_t*>(pBuffer);
 
 			// Got all the way down here, Dispatch the protobuf to the client connection. 
 			pClient->ProcessMessage(pHeader->nSize, pHeader->nType, (const char*)(pBuffer + sizeof(MsgHeader_t)));
@@ -174,7 +175,7 @@ void CrossCheatTalkNetwork::Search()
 			continue;
 
 		player_info_t player_info;
-		if (!g_pInterfaces->m_pEngine->GetPlayerInfo(i, &player_info))
+		if (!g_pInterfaces->m_pEngine->GetPlayerInfo(i, &player_info) || player_info.fakeplayer)
 			continue;
 
 		CSteamID csID(player_info.friendsId, k_EUniversePublic, k_EAccountTypeIndividual);
@@ -182,7 +183,6 @@ void CrossCheatTalkNetwork::Search()
 		{
 			SendConnectionRequestToClient(csID);
 		}
-
 	}
 
 	return;

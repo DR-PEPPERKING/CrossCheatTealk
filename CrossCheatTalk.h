@@ -37,7 +37,7 @@ enum ConnectionState
 };
 
 class CrossCheatClient;
-
+bool IsPlayerInGame(CSteamID csID);
 
 // Example Handler
 bool ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char* pMsg);
@@ -359,6 +359,37 @@ public:
 		for (std::pair<const CSteamID, CrossCheatClient*>& Client : m_Clients)
 		{
 			SendMessageToUser(nType, pMsg, Client.second);
+		}
+	}
+
+
+	void BroadCastMessageToTeammates(CrossCheatMsgType nType, ::google::protobuf::Message* pMsg, int nVirtualPort = 58)
+	{
+
+
+		if (!g_pLocalPlayer.Get())
+			return;
+
+		int nOurTeam = g_pLocalPlayer->m_iTeamNum();
+
+		for (int i = 1; i < g_pInterfaces->m_pEngine->GetMaxClients(); i++)
+		{
+			Entity* pEnt = g_pInterfaces->m_pEntityList->GetClientEntity(i);
+
+			if (!pEnt || !pEnt->IsPlayer() || pEnt->m_iTeamNum() != nOurTeam)
+				continue;
+
+			player_info_t player_info;
+			if (!g_pInterfaces->m_pEngine->GetPlayerInfo(i, &player_info) || player_info.fakeplayer)
+				continue;
+
+
+			CrossCheatClient* pClient = FindClientForID(CSteamID(player_info.friendsId, k_EUniversePublic, k_EAccountTypeIndividual));
+
+			if (!pClient)
+				continue;
+
+			SendMessageToUser(nType, pMsg, pClient, nVirtualPort);
 		}
 	}
 
