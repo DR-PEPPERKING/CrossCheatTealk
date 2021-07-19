@@ -327,7 +327,7 @@ public:
 
 		ESteamNetworkingConnectionState conn_state = Globals::g_pSteamNetworkingMessages->GetSessionConnectionInfo(idRemote, nullptr, nullptr);
 
-		if ((conn_state >= k_ESteamNetworkingConnectionState_None) && (conn_state < k_ESteamNetworkingConnectionState_Connected))
+		if ((conn_state > k_ESteamNetworkingConnectionState_None) && (conn_state < k_ESteamNetworkingConnectionState_Connected))
 		{
 			// Waiting on our previous request
 			// We allow ourselves to send when we are already
