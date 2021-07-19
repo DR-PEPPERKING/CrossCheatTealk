@@ -320,7 +320,7 @@ bool __cdecl ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, co
 	if (!ChatMessage.ParseFromArray(pMsg, nDataSize))
 		return false;
 
-	VCON("[%s] %s", Globals::g_pSteamFriends->GetFriendPersonaName(pClient->GetClientSteamID()), ChatMessage.message());
+	VCON("[%s] %s", Globals::g_pSteamFriends->GetFriendPersonaName(pClient->GetClientSteamID()), ChatMessage.message().c_str());
 }
 
 
