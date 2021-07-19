@@ -226,6 +226,9 @@ public:
 		}
 	};
 
+
+	void SetupSteamNetworkingSocketsDatagramConnection();
+
 	void Search();
 
 	void OpenPort(int nPortToOpen)
@@ -457,6 +460,7 @@ private:
 	std::vector<CSteamID> m_WhiteListedClients;
 	std::vector<CrossCheatMsgType> m_PriviledgedMessages;
 	std::vector<int> m_vOpenPorts;
+	HSteamListenSocket m_hListenSocket = NULL; // For Community Servers
 
 	bool m_bIsUsingWhiteList = false;
 };

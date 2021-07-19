@@ -35,14 +35,24 @@ void CrossCheatTalkNetwork::OnNewFrame()
 {
 	SteamNetworkingMessage_t* pMsg{ nullptr };
 	SteamNetworkingMessage_t* pMsgArray[MAX_PACKETS_TO_PROCESS]{};
-
+	SteamNetConnectionInfo_t ConnectionInfo;
 
 	ESteamNetworkingAvailability NetworkingAvaliablity = Globals::g_pSteamNetworkingUtils->GetRelayNetworkStatus(nullptr);
+	Globals::g_pSteamNetworkingSockets->GetConnectionInfo(m_hListenSocket, &ConnectionInfo);
+
+	
 	if (NetworkingAvaliablity < 0)
 	{
 		// No Connection. Possibly not on a valve server. Need to start our connection.
 		SetupSteamNetworkingSocketsDatagramConnection();
 	}
+	if ((ConnectionInfo.m_eState > k_ESteamNetworkingConnectionState_None) && (ConnectionInfo.m_eState < k_ESteamNetworkingConnectionState_Connected))
+	{
+		// Our Listen Socket Died, Lets Restart
+		SetupSteamNetworkingSocketsDatagramConnection();
+	}
+	
+
 
 	static double dbLastSearchTime{ 0.0 };
 	if ((dbLastSearchTime  < (Plat_FloatTime() - TIME_PER_GLOBAL_SEARCH)))
@@ -301,7 +311,7 @@ unsigned int WINAPI BlockThread(void*) // Now sometimes we need to protect our I
 
 
 // For Community Servers!
-void SetupSteamNetworkingSocketsDatagramConnection()
+void CrossCheatTalkNetwork::SetupSteamNetworkingSocketsDatagramConnection()
 {
 	// This a quick solution for community servers. will need revised!
 	Globals::g_pSteamNetworkingUtils->InitRelayNetworkAccess();
@@ -310,7 +320,7 @@ void SetupSteamNetworkingSocketsDatagramConnection()
 	opts.m_eValue = k_ESteamNetworkingConfig_SymmetricConnect;
 	opts.m_eDataType = k_ESteamNetworkingConfigDataType__Force32Bit;
 	opts.m_val.m_int32 = 1;
-	Globals::g_pSteamNetworkingSockets->CreateListenSocketP2P(58, 1, &opts);
+	m_hListenSocket = Globals::g_pSteamNetworkingSockets->CreateListenSocketP2P(58, 1, &opts);
 }
 
 bool __cdecl ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char* pMsg)
