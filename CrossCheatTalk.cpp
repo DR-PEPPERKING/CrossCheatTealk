@@ -34,7 +34,18 @@ bool IsPlayerInGame(CSteamID csID)
 void CrossCheatTalkNetwork::OnNewFrame()
 {
 	SteamNetworkingMessage_t* pMsg{ nullptr };
-	SteamNetworkingMessage_t* pMsgArray{ nullptr };
+	SteamNetworkingMessage_t* pMsgArray[MAX_PACKETS_TO_PROCESS]{};
+
+
+	//Globals::g_pSteamNetworkingSockets->GetConnectionp2p2
+	ESteamNetworkingAvailability NetworkingAvaliablity = Globals::g_pSteamNetworkingUtils->GetRelayNetworkStatus(nullptr);
+
+	if (NetworkingAvaliablity < 0)
+	{
+		// No Connection. Possibly not on a valve server. Need to start our connection.
+		SetupSteamNetworkingSocketsDatagramConnection();
+	}
+
 
 	static double dbLastSearchTime{ 0.0 };
 	if ((dbLastSearchTime  < (Plat_FloatTime() - TIME_PER_GLOBAL_SEARCH)))
@@ -43,13 +54,21 @@ void CrossCheatTalkNetwork::OnNewFrame()
 		Search();
 	}
 
+
 	for (int nOpenPort : m_vOpenPorts) {
-		int nMessagesRecieved = Globals::g_pSteamNetworkingMessages->ReceiveMessagesOnChannel(nOpenPort, &pMsgArray, MAX_PACKETS_TO_PROCESS);
+		int nMessagesRecieved = Globals::g_pSteamNetworkingMessages->ReceiveMessagesOnChannel(nOpenPort, pMsgArray, MAX_PACKETS_TO_PROCESS);
 		for (int i = 0; i < nMessagesRecieved; i++) {
-			pMsg = &(pMsgArray[i]);
+			pMsg = pMsgArray[i];
 			if (!pMsg)
 				continue;
 
+
+			if (IsSteamIDBanned(pMsg->m_identityPeer.GetSteamID()))
+			{
+				// Edge case where we still have a message dangling after we nuke em!
+				pMsg->Release();
+				continue; 
+			}
 			CrossCheatClient* pClient = FindClientForID(pMsg->m_identityPeer.GetSteamID());
 
 			size_t nDataSize = pMsg->GetSize();
@@ -70,13 +89,17 @@ void CrossCheatTalkNetwork::OnNewFrame()
 				ConnectClient(pMsg->m_identityPeer);
 				pMsg->Release();
 				CSteamID csID = pMsg->m_identityPeer.GetSteamID();
-				DEBUGCON(" [CrossCheatTalkNetwork::OnNewFrame] ConnectionInit From %d (Player : %s)\n", csID, Globals::g_pSteamFriends->GetFriendPersonaName(csID));
+				DEBUGCON(" [CrossCheatTalkNetwork::OnNewFrame] ConnectionInit From %d (Player : %s)\n", csID.GetAccountID(), Globals::g_pSteamFriends->GetFriendPersonaName(csID));
 
 				continue;
 			}
 
 			if (!pClient) // Are We Even Still Connected To This Client?
 			{
+				ConnectClient(pMsg->m_identityPeer);
+				// Valid Edge case. 
+				// If we actually Disconnected them we wouldn't have gotten this.
+				// Super rare this actually occurs
 				pMsg->Release();
 				continue;
 			}
@@ -163,17 +186,19 @@ void CrossCheatTalkNetwork::OnNewFrame()
 			pMsg->Release();
 		}
 	}
+
+	CullDeadClients();
 }
 
 
 
 void CrossCheatTalkNetwork::Search()
 {
-	for (int i = 0; i < g_pInterfaces->m_pEngine->GetMaxClients(); i++)
+	for (int i = 1; i <= g_pInterfaces->m_pEngine->GetMaxClients(); i++)
 	{
 		Entity* pEnt = g_pInterfaces->m_pEntityList->GetClientEntity(i);
 
-		if (!pEnt || !pEnt->IsPlayer())
+		if (!pEnt || !pEnt->IsPlayer() || pEnt == g_pLocalPlayer.Get())
 			continue;
 
 		player_info_t player_info;
@@ -205,6 +230,7 @@ void CrossCheat_Initialize()
 
 
 	// Set Callbacks
+	Globals::g_pSteamNetworkingUtils->SetGlobalConfigValueInt32(k_ESteamNetworkingConfig_SymmetricConnect, true);
 	Globals::g_pSteamNetworkingUtils->SetGlobalCallback_MessagesSessionFailed(&SessionFailedHandler);
 	Globals::g_pSteamNetworkingUtils->SetGlobalCallback_MessagesSessionRequest(&SessionRequestHandler);
 }
@@ -245,9 +271,9 @@ void SessionRequestHandler(SteamNetworkingMessagesSessionRequest_t* pRequest)
 	}
 	// Okay they aren't banned, and aren't already connected. Lets connect them up
 
-	DEBUGCON(" [SessionRequestHandler] Accepting Communications with %d (Player : %s)\n", csID, Globals::g_pSteamFriends->GetFriendPersonaName(csID));
+	DEBUGCON(" [SessionRequestHandler] Accepting Communications with %d (Player : %s)\n", csID.GetAccountID(), Globals::g_pSteamFriends->GetFriendPersonaName(csID));
 	g_pCCNetwork->ConnectClient(pRequest->m_identityRemote)->SetTheirRequest();
-
+	g_pCCNetwork->SendConnectionRequestToClient(pRequest->m_identityRemote.GetSteamID());
 }
 
 
@@ -276,14 +302,27 @@ unsigned int WINAPI BlockThread(void*) // Now sometimes we need to protect our I
 } // ENRON - 7/8/2021
 
 
-bool ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char* pMsg)
+// For Community Servers!
+void SetupSteamNetworkingSocketsDatagramConnection()
+{
+	// This a quick solution for community servers. will need revised!
+	Globals::g_pSteamNetworkingUtils->InitRelayNetworkAccess();
+	Globals::g_pSteamNetworking->AllowP2PPacketRelay(true);
+	SteamNetworkingConfigValue_t opts;
+	opts.m_eValue = k_ESteamNetworkingConfig_SymmetricConnect;
+	opts.m_eDataType = k_ESteamNetworkingConfigDataType__Force32Bit;
+	opts.m_val.m_int32 = 1;
+	Globals::g_pSteamNetworkingSockets->CreateListenSocketP2P(58, 1, &opts);
+}
+
+bool __cdecl ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char* pMsg)
 {
 	ChatMessage ChatMessage;
 
 	if (!ChatMessage.ParseFromArray(pMsg, nDataSize))
 		return false;
 
-	VCHAT("[%s] %s", Globals::g_pSteamFriends->GetFriendPersonaName(pClient->GetClientSteamID()), ChatMessage.message());
+	VCON("[%s] %s", Globals::g_pSteamFriends->GetFriendPersonaName(pClient->GetClientSteamID()), ChatMessage.message());
 }
 
 

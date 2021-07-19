@@ -11,11 +11,11 @@
 #define MAX_MESSAGE_SIZE 5200
 #define RATE_LIMIT_RESET_INTERVAL 60.0
 #define MAX_PACKETS_PER_INTERVAL 64
-#define MAX_PACKETS_TO_PROCESS 256
+#define MAX_PACKETS_TO_PROCESS 1
 #define MAX_PACKETS_PER_INTERVAL_BEFORE_DISCONNECT 512
 #define MAX_TIMEOUT 120.0
 #define CROSSCHEATNETWORK_PORT 58
-#define TIME_PER_GLOBAL_SEARCH 120.0
+#define TIME_PER_GLOBAL_SEARCH 10.0
 
 #pragma pack(push, 1)
 struct MsgHeader_t {
@@ -41,6 +41,7 @@ bool IsPlayerInGame(CSteamID csID);
 
 // Example Handler
 bool ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char* pMsg);
+void SetupSteamNetworkingSocketsDatagramConnection(); // If used on community servers
 
 typedef bool(__cdecl* MessageHandlerFunc)(CrossCheatClient* Client, size_t nDataSize, const char* pMsg);
 class SteamNetSocketsChannelMessageHandler {
@@ -50,7 +51,7 @@ public:
 		m_mapHandlerFunctions[nType] = pFunc;
 	}
 protected:
-	std::map< CrossCheatMsgType, MessageHandlerFunc > m_mapHandlerFunctions;
+	std::unordered_map< CrossCheatMsgType, MessageHandlerFunc > m_mapHandlerFunctions;
 };
 
 class CrossCheatClient : public SteamNetSocketsChannelMessageHandler
@@ -63,6 +64,7 @@ public:
 
 	void InitializeHandlers()
 	{
+		m_dbTimeSinceLastPacket = Plat_FloatTime();
 		m_mapHandlerFunctions[_ChatMessage] = &ChatMessage_Handler;
 	}
 
@@ -209,7 +211,20 @@ public:
 			if ((Plat_FloatTime() - pClient->GetLastRecieveTime()) > MAX_TIMEOUT)
 			{
 				DisconnectClient(pClient);
+				CullDeadClients(); // Recursive else the iterator will cause a crash!
+				return;
 			}
+
+
+			ESteamNetworkingConnectionState ConnectionState = Globals::g_pSteamNetworkingMessages->GetSessionConnectionInfo(pClient->GetNetworkingIdentity(), nullptr, nullptr);
+			if (ConnectionState < 0 || ConnectionState > 3)
+			{
+				DisconnectClient(pClient);
+				CullDeadClients(); // Recursive else the iterator will cause a crash!
+				return;
+			}
+			//Globals::g_pSteamNetworkingSockets->GetConnec
+
 		}
 	};
 
@@ -247,6 +262,7 @@ public:
 				return true;
 		}
 		return false;
+		
 	}
 
 	bool __forceinline IsSteamIDConnected(CSteamID cidClient)
@@ -304,6 +320,7 @@ public:
 		if (!pClient)
 		{
 			pClient = new CrossCheatClient(idRemote);
+			
 			m_Clients[idRemote.GetSteamID()] = pClient;
 		}
 
@@ -312,6 +329,7 @@ public:
 
 	CrossCheatClient* ConnectClient(SteamNetworkingIdentity idRemote)
 	{
+		//SetupSteamNetworkingSocketsDatagramConnection(idRemote.GetSteamID());
 		CrossCheatClient* pClient = CreateClientForNetworkingIdentity(idRemote);
 		Globals::g_pSteamNetworkingMessages->AcceptSessionWithUser(idRemote);
 		Globals::g_pSteamFriends->RequestUserInformation(pClient->GetClientSteamID(), true);
@@ -351,7 +369,11 @@ public:
 		size_t nMessageSize = pMsg->ByteSize();
 		size_t nTotalSize = nMessageSize + sizeof(MsgHeader_t);
 		char* pBuffer = (char*)malloc(nTotalSize);
-		pMsg->SerializePartialToArray((void*)(pBuffer + sizeof(MsgHeader_t)), nMessageSize);
+		if (!pMsg->SerializeToArray((void*)(pBuffer + sizeof(MsgHeader_t)), nMessageSize))
+		{
+			free(pBuffer);
+			return;
+		}
 		MsgHeader_t* pHeader = reinterpret_cast<MsgHeader_t*>(pBuffer);
 		pHeader->nSize = nMessageSize;
 		pHeader->nType = nType;
@@ -369,7 +391,8 @@ public:
 	{
 		for (std::pair<const CSteamID, CrossCheatClient*>& Client : m_Clients)
 		{
-			SendMessageToUser(nType, pMsg, Client.second);
+			if(Client.second)
+				SendMessageToUser(nType, pMsg, Client.second);
 		}
 	}
 
@@ -406,7 +429,7 @@ public:
 
 
 	void SendMessageToUser(CrossCheatMsgType nType, ::google::protobuf::Message* pMsg, CrossCheatClient* pClient, int nVirtualPort = 58) {
-		SendMessageToUser(nType, pMsg, pClient, nVirtualPort);
+		SendMessageToUser(nType, pMsg, pClient->GetClientSteamID().GetAccountID(), nVirtualPort);
 	}
 
 
