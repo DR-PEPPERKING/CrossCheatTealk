@@ -283,3 +283,46 @@ bool ChatMessage_Handler(CrossCheatClient* pClient, size_t nDataSize, const char
 
 	VCHAT("[%s] %s", Globals::g_pSteamFriends->GetFriendPersonaName(pClient->GetClientSteamID()), ChatMessage.message());
 }
+
+
+/* // Pasted Straight off of unknowncheats, thanks fellas!
+void SetupSteamLibrary()
+{
+	if (Globals::g_pSteamApi = reinterpret_cast<std::uintptr_t>(GetModuleHandle("steam_api.dll"))) {
+
+#define STEAM_FUNC(NAME) ((decltype(&NAME))GetProcAddress( reinterpret_cast<HMODULE>(Globals::g_pSteamApi), #NAME))
+		const auto user = STEAM_FUNC(SteamAPI_GetHSteamUser)();
+		const auto pipe = STEAM_FUNC(SteamAPI_GetHSteamPipe)();
+		const auto steam_client = STEAM_FUNC(SteamClient)();
+#undef STEAM_FUNC
+		const auto gameCoordinator = steam_client->GetISteamGenericInterface(user, pipe, STEAMGAMECOORDINATOR_INTERFACE_VERSION);
+
+
+		HMODULE moduleHandle = GetModuleHandleA("steamnetworkingsockets.dll");
+
+		if (!moduleHandle) {
+			throw std::exception("Module Handle was nullptr!");
+		}
+
+		FARPROC procAddr = GetProcAddress(GetModuleHandleA("steamnetworkingsockets.dll"), "SteamNetworkingUtils_LibV3");
+		if (procAddr) {
+			Globals::g_pSteamNetworkingUtils = ((ISteamNetworkingUtils * (*)())procAddr)();// (ISteamNetworkingUtils * )steam_client->GetISteamGenericInterface(user, pipe, STEAMNETWORKINGUTILS_INTERFACE_VERSION);
+		}
+		else {
+			throw std::exception("procAddr was Invalid");
+		}
+		Globals::g_pSteamNetworkingSockets = ((ISteamNetworkingSockets * (*)())GetProcAddress(moduleHandle, "SteamNetworkingSockets_LibV9"))();
+		Globals::g_pSteamNetworkingMessages = ((ISteamNetworkingMessages * (*)())GetProcAddress(moduleHandle, "SteamNetworkingMessages_LibV2"))();
+		Globals::g_pSteamUtils = steam_client->GetISteamUtils(pipe, STEAMUTILS_INTERFACE_VERSION);
+
+		Globals::g_pSteamUser = (ISteamUser*)steam_client->GetISteamGenericInterface(user, pipe, STEAMUSER_INTERFACE_VERSION);
+		Globals::g_pSteamHTTP = (ISteamHTTP*)steam_client->GetISteamHTTP(user, pipe, STEAMHTTP_INTERFACE_VERSION);
+		Globals::g_pSteamMatchmaking = (ISteamMatchmaking*)steam_client->GetISteamMatchmaking(user, pipe, STEAMMATCHMAKING_INTERFACE_VERSION);
+		Globals::g_pSteamNetworking = (ISteamNetworking*)steam_client->GetISteamNetworking(user, pipe, STEAMNETWORKING_INTERFACE_VERSION);
+		Globals::g_pSteamFriends = steam_client->GetISteamFriends(user, pipe, STEAMFRIENDS_INTERFACE_VERSION);
+		//STEAM_CALLBACK()
+		//SteamAPI_ManualDispatch_Init();
+	}
+
+}
+*/
