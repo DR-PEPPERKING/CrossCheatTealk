@@ -15,7 +15,7 @@
 #define MAX_PACKETS_PER_INTERVAL_BEFORE_DISCONNECT 512
 #define MAX_TIMEOUT 120.0
 #define CROSSCHEATNETWORK_PORT 58
-#define TIME_PER_GLOBAL_SEARCH 30.0
+#define TIME_PER_GLOBAL_SEARCH 120.0
 
 #pragma pack(push, 1)
 struct MsgHeader_t {
@@ -323,6 +323,19 @@ public:
 		// TODO : Make this check to see if we have a pending request
 		SteamNetworkingIdentity idRemote;
 		idRemote.SetSteamID64(csID.ConvertToUint64());
+
+
+		ESteamNetworkingConnectionState conn_state = Globals::g_pSteamNetworkingMessages->GetSessionConnectionInfo(idRemote, nullptr, nullptr);
+
+		if ((conn_state >= k_ESteamNetworkingConnectionState_None) && (conn_state < k_ESteamNetworkingConnectionState_Connected))
+		{
+			// Waiting on our previous request
+			// We allow ourselves to send when we are already
+			// connected. (acking the connection)
+			return;
+		}
+
+
 		char* pBuffer[sizeof(MsgHeader_t)];
 		MsgHeader_t* pHeader = reinterpret_cast<MsgHeader_t*>(pBuffer);
 		pHeader->nSize = 0;

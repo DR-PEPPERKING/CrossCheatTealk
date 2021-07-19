@@ -24,6 +24,7 @@ bool IsPlayerInGame(CSteamID csID)
 
 		if (player_info.friendsId == csID.GetAccountID())
 			return true;
+
 	}
 
 	return false;
